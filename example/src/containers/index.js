@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import App from '../components/';
 import * as Actions from '../actions/index';
+import { transitionTo } from '../../../src/actions/';
 
 class AppContainer extends Component {
 
@@ -14,10 +15,14 @@ class AppContainer extends Component {
         state: PropTypes.string
     }
 
+    clickHandler = () => {
+        this.props.actions.transitionTo();
+    }
+
     render() {
         return (
             <div>
-                <App />
+                <App clickHandler={this.clickHandler} />
             </div>
         );
     }
@@ -28,7 +33,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return { actions:  bindActionCreators(Actions, dispatch) };
+    const actions = {
+        ...Actions,
+        transitionTo
+    };
+    return { actions:  bindActionCreators(actions, dispatch) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
