@@ -19,6 +19,7 @@ export default function createMinutemen(selector, historyWrap) {
                     ...action.payload,
                     ...routes
                 };
+                historyWrap.pushState(action, routes.component, routes.uri);
                 allow(action);
             }
         }
