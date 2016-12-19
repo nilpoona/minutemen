@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import minutemenReducer from '../../../src/reducers/';
 import app from './app';
 
-const mReducer = minutemenReducer()
+const routing = minutemenReducer(0)
 
 const rootReducer = combineReducers({
     app,
-    mReducer
+    routing
 });
 export default rootReducer;
 

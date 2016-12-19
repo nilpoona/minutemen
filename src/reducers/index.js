@@ -1,12 +1,13 @@
 
-export default function minutemenReducer() {
+export default function minutemenReducer(defaultComponent = 0) {
     const initialState = {
-        uri: '/'
+        uri: '/',
+        component: defaultComponent 
     };
 
     return (state = initialState, action) => {
       switch (action.type) {
-        case 'TRANSITION_TO':
+        case 'TRANSITION_BY_NAME':
             return {
                 ...state,
                 ...action.payload

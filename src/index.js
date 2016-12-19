@@ -1,27 +1,28 @@
-import { createLogic } from 'redux-logic';
-import { createLogicMiddleware } from 'redux-logic';
-
-const transitionValidate = createLogic({
-    type: 'TRANSITION_TO',
-    latest: true,
-    validate({ getState, action }, allow, reject) {
-        allow(action);
-    }
-});
+import { createLogic, createLogicMiddleware } from 'redux-logic';
 
 /**
 * create middlewares
-* @param {Object} routing - routing settings
+* @param {Object} selector - selector
+* @param {Object} historywrap - history object wrapper 
 * @returns {Object} 
 */
-export default function createMinutemen(routing = {}) {
-    const transitionValidate = createLogic({
-        type: 'TRANSITION_TO',
+export default function createMinutemen(selector, historyWrap) {
+    const validateTransitionByName = createLogic({
+        type: 'TRANSITION_BY_NAME',
         latest: true,
         validate({ getState, action }, allow, reject) {
-            allow(action);
+            const routes = selector.getPayloadByName(action.payload.name);
+            if (routes === null) {
+                reject();
+            } else {
+                action.payload = {
+                    ...action.payload,
+                    ...routes
+                };
+                allow(action);
+            }
         }
     });
     
-    return createLogicMiddleware([transitionValidate], {});
+    return createLogicMiddleware([validateTransitionByName], {});
 }
