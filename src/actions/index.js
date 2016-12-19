@@ -1,8 +1,8 @@
-export function transitionTo() {
+export function transitionByName(name = '') {
     return {
-        type: 'TRANSITION_TO',
+        type: 'TRANSITION_BY_NAME',
         payload: {
-            uri: '/'
+            name
         }
     };
 }
