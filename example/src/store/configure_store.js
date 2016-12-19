@@ -6,7 +6,8 @@ import createHistory from '../../../src/history';
 import createSelector from '../../../src/selector';
 
 export default function configureStore(initialState) {
-    const mHistory = createHistory(window.history);
+    const historyWrapper = createHistory();
+    historyWrapper.listenPopstate();
     const routing = {
         '/': {
             index: 0,
@@ -17,9 +18,10 @@ export default function configureStore(initialState) {
             component: 'FooContainer'
         }
     };
-    const minutemen = createMinutemen(createSelector(routing), mHistory);
+
+    const minutemen = createMinutemen(createSelector(routing), historyWrapper);
     
-    return createStore(
+    const store = createStore(
         rootReducer,
         initialState,
         applyMiddleware(
@@ -27,4 +29,8 @@ export default function configureStore(initialState) {
             minutemen
         )
     );
+
+    historyWrapper.listenPopstate(store);
+    
+    return store;
 }
