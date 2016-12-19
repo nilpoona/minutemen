@@ -2,26 +2,23 @@ import { createStore, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 import rootReducer from '../reducers/';
 import createMinutemen from '../../../src/';
-import createHistory from '../../../src/history';
 import createSelector from '../../../src/selector';
 
-export default function configureStore(initialState) {
-    const historyWrapper = createHistory();
-    historyWrapper.listenPopstate();
+export default function configureStore(initialState, historyWrapper) {
     const routing = {
         '/': {
             index: 0,
+            root: true,
             component: 'AppContainer'
         },
         '/foo': {
             index: 1,
             component: 'FooContainer'
-        }
+        },
     };
 
     const minutemen = createMinutemen(createSelector(routing), historyWrapper);
-    
-    const store = createStore(
+    return createStore(
         rootReducer,
         initialState,
         applyMiddleware(
@@ -29,8 +26,4 @@ export default function configureStore(initialState) {
             minutemen
         )
     );
-
-    historyWrapper.listenPopstate(store);
-    
-    return store;
 }

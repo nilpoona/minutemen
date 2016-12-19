@@ -6,12 +6,14 @@ import AppContainer from './containers/';
 import FooContainer from './containers/foo';
 import Foo from './components/foo';
 import Router from '../../src/components/router';
+import createHistory from '../../src/history';
 
 document.addEventListener("DOMContentLoaded", () => {
-    const store = configureStore();
+    const historyWrapper = createHistory();
+    const store = configureStore(undefined, historyWrapper);
     ReactDOM.render(
         <Provider store={store}>
-            <Router>
+            <Router historyWrapper={historyWrapper}>
                 <AppContainer />
                 <FooContainer />
                 <Foo />

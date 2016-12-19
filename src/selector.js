@@ -10,10 +10,22 @@ class Selector {
             let key = keys[i];
             const routes = this.routing[key];
             if (routes.component === name ) {
-                return { uri: key, component: routes.index};
+                return { uri: key, component: routes.index };
             }
         }
 
+        return null;
+    }
+
+    get rootComponent() {
+        const keys = Object.keys(this.routing);
+        for (let i = 0, len = keys.length; i < len; i++) {
+            let key = keys[i];
+            const routes = this.routing[key];
+            if (routes.hasOwnProperty('root') && routes.root) {
+                return { uri: key, component: routes.index };
+            }
+        }
         return null;
     }
 }

@@ -1,36 +1,21 @@
-class History {
-    constructor() {
-        this.bind();
-        this.dispatch = null;
-    }
+import { ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT } from './constants/';
 
-    bind() {
-       window.addEventListener('popstate',function(e){ 
-           console.log(e);
-       });
-    }
-
-    pushState(stateObj = {}, componentName, path) {
-        window.history.pushState(stateObj, componentName, path);
-    }
-}
-
-export default function createHistory() {
+export default function createHistory(root = '/') {
 
     const pushState = (stateObj = {}, componentName, path) => {
         window.history.pushState(stateObj, componentName, path);
     };
 
-    const handlePopstate = (e, dispatch) => {
-        console.log(e);
+    const handlePopstate = (e, cb) => {
+        if (e.state === null) {
+            cb(ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT);
+        } else {
+            cb(e.state.payload.name);
+        }
     };
 
-    const listenPopstate = (store) => {
-        window.addEventListener('popstate', function(e){ 
-            if (store) {
-                handlePopstate(e, store.dispatch);
-            }
-        });
+    const listenPopstate = (cb) => {
+        window.addEventListener('popstate', e => handlePopstate(e, cb));
     };
 
     return {
