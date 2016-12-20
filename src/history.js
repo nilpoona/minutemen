@@ -7,7 +7,8 @@ export default function createHistory(root = '/') {
     };
 
     const handlePopstate = (e, cb) => {
-        if (e.state === null) {
+        console.log(e.state);
+        if (e.state === null || e.state.hasOwnProperty('name')) {
             cb(ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT);
         } else {
             cb(e.state.payload.name);

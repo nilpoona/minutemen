@@ -12,12 +12,15 @@ export default function createMinutemen(selector, historyWrap) {
         historyWrap.pushState(state, name, uri);
     };
 
+    const replaceState = (uri) => {
+        historyWrap.replaceState(null, null, uri);
+    };
+
     const validateTransitionByName = createLogic({
         type: 'TRANSITION_BY_NAME',
         latest: true,
         validate({ getState, action }, allow, reject) {
             const routes = selector.getPayloadByName(action.payload.name);
-            console.log(routes);
             if (routes === null) {
                 reject();
             } else {
@@ -25,8 +28,12 @@ export default function createMinutemen(selector, historyWrap) {
                     ...action.payload,
                     ...routes
                 };
-
-                pushState(action, routes.component, routes.uri);
+                
+                if (action.payload.pushState) {
+                    pushState(action, routes.component, routes.uri);
+                } else {
+                    replaceState(routes.uri);
+                }
                 allow(action);
             }
         }
@@ -37,14 +44,18 @@ export default function createMinutemen(selector, historyWrap) {
         latest: true,
         validate({ getState, action }, allow, reject) {
             const routes = selector.rootComponent;
-            console.log(routes);
             if (routes === null) {
                 reject();
             } else {
                 action.payload = {
                     ...routes
                 };
-                pushState(action, routes.component, routes.uri);
+                if (action.payload.pushState) {
+                    pushState(action, routes.component, routes.uri);
+                } else {
+                    replaceState(routes.uri);
+                }
+
                 allow(action);
             }
         }
