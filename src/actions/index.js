@@ -1,10 +1,11 @@
 import { ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT } from '../constants/';
 
-export function transitionByName(name = '', pushState = true) {
+export function transitionByName(name = '', params = null, pushState = true) {
     return {
         type: 'TRANSITION_BY_NAME',
         payload: {
             name,
+            params,
             pushState,
         }
     };

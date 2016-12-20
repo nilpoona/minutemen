@@ -15,6 +15,10 @@ export default function configureStore(initialState, historyWrapper) {
             index: 1,
             component: 'FooContainer'
         },
+        '/bar/:id:/:num:/': {
+            index: 2,
+            component: 'BarContainer'
+        }
     };
 
     const minutemen = createMinutemen(createSelector(routing), historyWrapper);

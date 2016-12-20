@@ -3,18 +3,22 @@ import React, { PropTypes } from 'react';
 const App = (props) => {
     return (
         <div>
-            foo bar<br />
-            <button onClick={props.clickHandler}>click</button>
+            root<br />
+            <button onClick={props.transitionToFoo}>/foo</button>
+            <button onClick={props.transitionToBar}>/bar/:id</button>
         </div>
     );
 };
 
 App.defaultProps = {
-    clickHandler: () => { return true },
+    transitionToFoo: () => { return true },
+    transitionToBar: () => { return true },
+
 };
 
 App.propTypes = {
-    clickHandler: PropTypes.func
+    transitionToFoo: PropTypes.func,
+    transitionToBar: PropTypes.func,
 };
 
 export default App;

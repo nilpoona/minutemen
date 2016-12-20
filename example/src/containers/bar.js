@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import App from '../components/';
+import Bar from '../components/bar';
 import * as Actions from '../actions/index';
-import { transitionByName } from '../../../src/actions/';
+import { transitionTo } from '../../../src/actions/';
 
-class AppContainer extends Component {
+class BarContainer extends Component {
 
     static defaultProps = {
         state: ''
@@ -15,21 +15,10 @@ class AppContainer extends Component {
         state: PropTypes.string
     }
 
-    transitionToFoo = () => {
-        this.props.actions.transitionByName('FooContainer');
-    }
-
-    transitionToBar = () => {
-        this.props.actions.transitionByName('BarContainer', { id: 1, num: 1 });
-    }
-
     render() {
         return (
             <div>
-                <App
-                    transitionToFoo={this.transitionToFoo}
-                    transitionToBar={this.transitionToBar}
-                />
+                <Bar />
             </div>
         );
     }
@@ -42,10 +31,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     const actions = {
         ...Actions,
-        transitionByName 
+        transitionTo
     };
     return { actions:  bindActionCreators(actions, dispatch) };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BarContainer);
 

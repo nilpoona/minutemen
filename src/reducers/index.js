@@ -11,12 +11,13 @@ export default function minutemenReducer(defaultComponent = 0) {
         case 'TRANSITION_BY_NAME':
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
             };
         case ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT:
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
+                params: null,
             };
         default:
           return state

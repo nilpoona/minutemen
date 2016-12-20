@@ -20,7 +20,8 @@ export default function createMinutemen(selector, historyWrap) {
         type: 'TRANSITION_BY_NAME',
         latest: true,
         validate({ getState, action }, allow, reject) {
-            const routes = selector.getPayloadByName(action.payload.name);
+            const { name, params } = action.payload;
+            const routes = selector.getPayloadByName(name, params);
             if (routes === null) {
                 reject();
             } else {
