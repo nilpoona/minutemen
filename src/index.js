@@ -21,8 +21,8 @@ export default function createMinutemen(selector, historyWrap) {
         latest: true,
         validate({ getState, action }, allow, reject) {
             const { name, params } = action.payload;
-            const routes = selector.getPayloadByName(name, params);
-            if (routes === null) {
+            const routes = selector.getPayloadByName(name, params, historyWrap.pathname());
+            if (routes === null || routes.uri === null) {
                 reject();
             } else {
                 action.payload = {
@@ -31,6 +31,7 @@ export default function createMinutemen(selector, historyWrap) {
                 };
                 
                 if (action.payload.pushState) {
+                    console.log(action, routes);
                     pushState(action, routes.component, routes.uri);
                 } else {
                     replaceState(routes.uri);
@@ -51,6 +52,8 @@ export default function createMinutemen(selector, historyWrap) {
                 action.payload = {
                     ...routes
                 };
+
+                console.log(routes);
                 if (action.payload.pushState) {
                     pushState(action, routes.component, routes.uri);
                 } else {

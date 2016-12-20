@@ -4,28 +4,47 @@ class Selector {
         this.routing = routing;
     }
 
-    replacePathParameter(uri, params) {
-        const keys = Object.keys(params);
-        for (let i = 0, len = keys.length; i < len; i++) {
-            let key = keys[i];
-            let pattern = `/:${key}:/?`;
-            let reg = new RegExp(pattern, 'g');
-            uri = uri.replace(reg, `/${params[key]}/`);
+    replaceUri(pattern, params) {
+        let index = 0;
+        
+        if (pattern.match(/(\(.*?\))/g) === null) {
+            return pattern.replace(/\^|\$/g, '');
         }
 
-        return uri;
+        return pattern
+            .replace(/(\(.*?\))/g, function(...args) {
+                const param = new String(params[index]);
+                const reg = new RegExp(args[0]);
+                index++;
+                if (param.match(reg)[0] !== '') {
+                    return param
+                } else {
+                    throw new Error('parameter not found.');
+                }
+            })
+            .replace(/\^|\$/g, '');
     }
     
-    getPayloadByName(name, params = null) {
+    generateUri(pattern, params) {
+        try {
+            return this.replaceUri(pattern, params);
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
+    
+    getPayloadByName(name, params = null, uri) {
         const keys = Object.keys(this.routing);
         for (let i = 0, len = keys.length; i < len; i++) {
             let key = keys[i];
             const routes = this.routing[key];
             if (routes.component === name ) {
+                const newUri = this.generateUri(key, params);
                 if (params === null) {
-                    return { uri: key, component: routes.index };
+                    return { uri: newUri, component: routes.index };
                 } else {
-                    return { uri: this.replacePathParameter(key, params), component: routes.index, params };
+                    return { uri: newUri, component: routes.index, params };
                 }
             }
         }
@@ -39,7 +58,8 @@ class Selector {
             let key = keys[i];
             const routes = this.routing[key];
             if (routes.hasOwnProperty('root') && routes.root) {
-                return { uri: key, component: routes.index };
+                const newUri = this.generateUri(key, []);
+                return { uri: newUri, component: routes.index };
             }
         }
         return null;

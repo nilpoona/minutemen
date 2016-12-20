@@ -11,11 +11,7 @@ class Router extends Component {
             if (name === ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT) {
                 this.props.actions.transitionToRootComponent(false);
             } else {
-                if (params) {
-                    this.props.actions.transitionByName(name, params, false);
-                } else {
-                    this.props.actions.transitionByName(name, null, false);
-                }
+                this.props.actions.transitionByName(name, params, false);
             }
         });
     }

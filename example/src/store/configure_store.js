@@ -6,16 +6,16 @@ import createSelector from '../../../src/selector';
 
 export default function configureStore(initialState, historyWrapper) {
     const routing = {
-        '/': {
+        '^/$': {
             index: 0,
             root: true,
             component: 'AppContainer'
         },
-        '/foo': {
+        '^/foo$': {
             index: 1,
             component: 'FooContainer'
         },
-        '/bar/:id:/:num:/': {
+        '^/bar/([0-9]*)/([0-9]*)/$': {
             index: 2,
             component: 'BarContainer'
         }

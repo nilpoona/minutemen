@@ -20,7 +20,7 @@ class AppContainer extends Component {
     }
 
     transitionToBar = () => {
-        this.props.actions.transitionByName('BarContainer', { id: 1, num: 1 });
+        this.props.actions.transitionByName('BarContainer', [ 1, 1 ]);
     }
 
     render() {

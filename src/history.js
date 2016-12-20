@@ -6,6 +6,10 @@ export default function createHistory(root = '/') {
         window.history.pushState(stateObj, componentName, path);
     };
 
+    const pathname = () => {
+        return window.history.pathname;
+    };
+
     const handlePopstate = (e, cb) => {
         console.log(e);
         if (e.state === null || e.state.hasOwnProperty('name')) {
@@ -27,5 +31,6 @@ export default function createHistory(root = '/') {
         pushState: pushState,
         listenPopstate: listenPopstate,
         replaceState: replaceState,
+        pathname: pathname,
     };
 }
