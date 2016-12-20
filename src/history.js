@@ -15,12 +15,17 @@ export default function createHistory(root = '/') {
         }
     };
 
+    const replaceState = (stateObj = {}, componentName, path) => {
+        window.history.replaceState(stateObj, componentName, path);
+    };
+
     const listenPopstate = (cb) => {
         window.addEventListener('popstate', e => handlePopstate(e, cb));
     };
 
     return {
         pushState: pushState,
-        listenPopstate: listenPopstate
+        listenPopstate: listenPopstate,
+        replaceState: replaceState,
     };
 }
