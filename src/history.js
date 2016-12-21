@@ -11,7 +11,6 @@ export default function createHistory(root = '/') {
     };
 
     const handlePopstate = (e, cb) => {
-        console.log(e);
         if (e.state === null || e.state.hasOwnProperty('name')) {
             cb(TRANSITON_TO_ROOT_COMPONENT);
         } else {
