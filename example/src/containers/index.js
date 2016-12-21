@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import App from '../components/';
 import * as Actions from '../actions/index';
-import { transitionByName } from '../../../src/actions/';
 
 class AppContainer extends Component {
 
@@ -16,11 +15,11 @@ class AppContainer extends Component {
     }
 
     transitionToFoo = () => {
-        this.props.actions.transitionByName('FooContainer');
+        this.props.transitionByName('FooContainer');
     }
 
     transitionToBar = () => {
-        this.props.actions.transitionByName('BarContainer', [ 1, 1 ]);
+        this.props.transitionByName('BarContainer', [ 1, 1 ]);
     }
 
     render() {
@@ -40,11 +39,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    const actions = {
-        ...Actions,
-        transitionByName 
-    };
-    return { actions:  bindActionCreators(actions, dispatch) };
+    return { };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

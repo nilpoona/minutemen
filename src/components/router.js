@@ -22,7 +22,11 @@ class Router extends Component {
     }
     
     render() {
-        return Children.only(this.renderComponent);
+        const props = {
+            ...this.props.actions,
+            params: this.props.routing.params,
+        };
+        return React.cloneElement(this.renderComponent, props);
     }
 }
 
