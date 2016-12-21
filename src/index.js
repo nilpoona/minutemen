@@ -1,5 +1,5 @@
 import { createLogic, createLogicMiddleware } from 'redux-logic';
-import { ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT } from './constants/';
+import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO } from './constants/';
 
 /**
 * create middlewares
@@ -16,6 +16,31 @@ export default function createMinutemen(selector, historyWrap) {
         historyWrap.replaceState(null, null, uri);
     };
 
+    const validateTransitionTo = createLogic({
+        type: TRANSITON_TO,
+        latest: true,
+        validate({ getState, action }, allow, reject) {
+            const { uri, params } = action.payload;
+            const routes = selector.getPayloadByUri(uri, params, historyWrap.pathname());
+            if (routes === null || routes.uri === null) {
+                reject();
+            } else {
+                action.payload = {
+                    ...action.payload,
+                    ...routes
+                };
+                
+                if (action.payload.pushState) {
+                    pushState(action, routes.component, routes.uri);
+                } else {
+                    replaceState(routes.uri);
+                }
+                allow(action);
+            }
+        }
+    });
+
+
     const validateTransitionByName = createLogic({
         type: 'TRANSITION_BY_NAME',
         latest: true,
@@ -31,7 +56,6 @@ export default function createMinutemen(selector, historyWrap) {
                 };
                 
                 if (action.payload.pushState) {
-                    console.log(action, routes);
                     pushState(action, routes.component, routes.uri);
                 } else {
                     replaceState(routes.uri);
@@ -42,7 +66,7 @@ export default function createMinutemen(selector, historyWrap) {
     });
 
     const validateTransitionToRootComponent = createLogic({
-        type: ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT,
+        type: TRANSITON_TO_ROOT_COMPONENT,
         latest: true,
         validate({ getState, action }, allow, reject) {
             const routes = selector.rootComponent;

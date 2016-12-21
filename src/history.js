@@ -1,4 +1,4 @@
-import { ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT } from './constants/';
+import { TRANSITON_TO_ROOT_COMPONENT } from './constants/';
 
 export default function createHistory(root = '/') {
 
@@ -13,7 +13,7 @@ export default function createHistory(root = '/') {
     const handlePopstate = (e, cb) => {
         console.log(e);
         if (e.state === null || e.state.hasOwnProperty('name')) {
-            cb(ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT);
+            cb(TRANSITON_TO_ROOT_COMPONENT);
         } else {
             cb(e.state.payload.name, e.state.payload.params);
         }

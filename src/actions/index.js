@@ -1,4 +1,4 @@
-import { ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT } from '../constants/';
+import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO } from '../constants/';
 
 export function transitionByName(name = '', params = null, pushState = true) {
     return {
@@ -13,9 +13,19 @@ export function transitionByName(name = '', params = null, pushState = true) {
 
 export function transitionToRootComponent(pushState = true) {
     return {
-        type: ACTION_TYPE_TRANSITON_TO_ROOT_COMPONENT,
+        type: TRANSITON_TO_ROOT_COMPONENT,
         payload: {
             pushState
+        }
+    };
+}
+
+export function transitionTo(uri, pushState = true) {
+    return {
+        type: TRANSITON_TO,
+        payload: {
+            uri,
+            pushState,
         }
     };
 }

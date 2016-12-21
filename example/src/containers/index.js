@@ -22,12 +22,17 @@ class AppContainer extends Component {
         this.props.transitionByName('BarContainer', [ 1, 1 ]);
     }
 
+    transitionTo = () => {
+        this.props.transitionTo('/bar/1/1/');
+    }
+
     render() {
         return (
             <div>
                 <App
                     transitionToFoo={this.transitionToFoo}
                     transitionToBar={this.transitionToBar}
+                    transitionTo={this.transitionTo}
                 />
             </div>
         );

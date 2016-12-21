@@ -33,7 +33,29 @@ class Selector {
             return null;
         }
     }
-    
+
+    getPayloadByUri(uri, params = null) {
+        const keys = Object.keys(this.routing);
+        for (let i = 0, len = keys.length; i < len; i++) {
+            let key = keys[i];
+            console.log(uri.match(new RegExp(key)));
+            /*
+            const routes = this.routing[key];
+            if (routes.component === name ) {
+                const newUri = this.generateUri(key, params);
+                if (params === null) {
+                    return { uri: newUri, component: routes.index };
+                } else {
+                    return { uri: newUri, component: routes.index, params };
+                }
+            }
+            */
+        }
+
+        return null;
+    }
+
+   
     getPayloadByName(name, params = null, uri) {
         const keys = Object.keys(this.routing);
         for (let i = 0, len = keys.length; i < len; i++) {

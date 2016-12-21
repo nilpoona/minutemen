@@ -6,6 +6,7 @@ const App = (props) => {
             root<br />
             <button onClick={props.transitionToFoo}>/foo</button>
             <button onClick={props.transitionToBar}>/bar/:id</button>
+            <button onClick={props.transitionToBar}>/bar/1/1/</button>
         </div>
     );
 };
@@ -13,12 +14,13 @@ const App = (props) => {
 App.defaultProps = {
     transitionToFoo: () => { return true },
     transitionToBar: () => { return true },
-
+    transitionTo: () => { return true },
 };
 
 App.propTypes = {
     transitionToFoo: PropTypes.func,
     transitionToBar: PropTypes.func,
+    transitionTo: PropTypes.func,
 };
 
 export default App;
