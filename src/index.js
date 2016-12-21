@@ -1,6 +1,6 @@
 import { createLogic, createLogicMiddleware } from 'redux-logic';
-import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO } from './constants/';
-
+import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO, INIT_ROUTER } from './constants/';
+import { transitionToRootComponent } from './actions';
 /**
 * create middlewares
 * @param {Object} selector - selector
@@ -15,6 +15,32 @@ export default function createMinutemen(selector, historyWrap) {
     const replaceState = (uri) => {
         historyWrap.replaceState(null, null, uri);
     };
+
+    const initRouter = createLogic({
+        type: INIT_ROUTER,
+        latest: true,
+        validate({ getState, action }, allow, reject) {
+            const path = historyWrap.pathname(); 
+            const routes = selector.getPayloadByUri(path);
+            if (routes === null || routes.uri === null) {
+                reject(transitionToRootComponent(false));
+            } else {
+                action.payload = {
+                    ...action.payload,
+                    ...routes
+                };
+                
+                if (action.payload.pushState) {
+                    pushState(action, routes.component, routes.uri);
+                } else {
+                    replaceState(routes.uri);
+                }
+                allow(action);
+            }
+        }
+    });
+
+
 
     const validateTransitionTo = createLogic({
         type: TRANSITON_TO,
@@ -95,6 +121,7 @@ export default function createMinutemen(selector, historyWrap) {
         validateTransitionByName,
         validateTransitionToRootComponent,
         validateTransitionTo,
+        initRouter,
     ];
 
     return createLogicMiddleware(logics, {});

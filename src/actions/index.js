@@ -1,4 +1,4 @@
-import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO } from '../constants/';
+import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO, INIT_ROUTER } from '../constants/';
 
 export function transitionByName(name = '', params = null, pushState = true) {
     return {
@@ -27,5 +27,11 @@ export function transitionTo(uri, pushState = true) {
             uri,
             pushState,
         }
+    };
+}
+
+export function initRouter() {
+    return {
+        type: INIT_ROUTER, 
     };
 }

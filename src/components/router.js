@@ -1,7 +1,12 @@
 import React, { Component, PropTypes, Children } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { transitionByName, transitionToRootComponent, transitionTo } from '../actions/';
+import {
+    transitionByName,
+    transitionToRootComponent,
+    transitionTo,
+    initRouter,
+} from '../actions/';
 import { TRANSITON_TO_ROOT_COMPONENT } from '../constants/';
 
 class Router extends Component {
@@ -14,6 +19,8 @@ class Router extends Component {
                 this.props.actions.transitionByName(name, params, false);
             }
         });
+
+        this.props.actions.initRouter();
     }
     
     get renderComponent() {
@@ -39,6 +46,7 @@ function mapDispatchToProps(dispatch) {
         transitionByName: transitionByName,
         transitionToRootComponent: transitionToRootComponent,
         transitionTo: transitionTo,
+        initRouter: initRouter,
     };
     return { actions: bindActionCreators(actions, dispatch) };
 

@@ -7,7 +7,7 @@ export default function createHistory(root = '/') {
     };
 
     const pathname = () => {
-        return window.history.pathname;
+        return window.location.pathname;
     };
 
     const handlePopstate = (e, cb) => {

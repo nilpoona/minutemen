@@ -1,4 +1,4 @@
-import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO } from '../constants/';
+import { TRANSITON_TO_ROOT_COMPONENT, TRANSITON_TO, INIT_ROUTER } from '../constants/';
 
 export default function minutemenReducer(defaultComponent = 0) {
     const initialState = {
@@ -20,6 +20,11 @@ export default function minutemenReducer(defaultComponent = 0) {
                 params: null,
             };
         case TRANSITON_TO:
+            return {
+                ...state,
+                ...action.payload,
+            };
+        case INIT_ROUTER:
             return {
                 ...state,
                 ...action.payload,
