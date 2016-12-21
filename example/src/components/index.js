@@ -6,7 +6,7 @@ const App = (props) => {
             root<br />
             <button onClick={props.transitionToFoo}>/foo</button>
             <button onClick={props.transitionToBar}>/bar/:id</button>
-            <button onClick={props.transitionToBar}>/bar/1/1/</button>
+            <button onClick={props.transitionTo}>/bar/1/1/</button>
         </div>
     );
 };

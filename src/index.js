@@ -20,8 +20,9 @@ export default function createMinutemen(selector, historyWrap) {
         type: TRANSITON_TO,
         latest: true,
         validate({ getState, action }, allow, reject) {
-            const { uri, params } = action.payload;
-            const routes = selector.getPayloadByUri(uri, params, historyWrap.pathname());
+            const { uri } = action.payload;
+            const routes = selector.getPayloadByUri(uri);
+            console.log(routes);
             if (routes === null || routes.uri === null) {
                 reject();
             } else {
@@ -93,6 +94,7 @@ export default function createMinutemen(selector, historyWrap) {
     const logics = [
         validateTransitionByName,
         validateTransitionToRootComponent,
+        validateTransitionTo,
     ];
 
     return createLogicMiddleware(logics, {});

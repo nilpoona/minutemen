@@ -34,22 +34,26 @@ class Selector {
         }
     }
 
-    getPayloadByUri(uri, params = null) {
+    getPathParams(match) {
+        if (match.length === 1) {
+            return null;
+        }
+
+        return match.slice(1, match.length);
+    }
+
+    getPayloadByUri(uri) {
         const keys = Object.keys(this.routing);
         for (let i = 0, len = keys.length; i < len; i++) {
             let key = keys[i];
-            console.log(uri.match(new RegExp(key)));
-            /*
-            const routes = this.routing[key];
-            if (routes.component === name ) {
-                const newUri = this.generateUri(key, params);
-                if (params === null) {
-                    return { uri: newUri, component: routes.index };
-                } else {
-                    return { uri: newUri, component: routes.index, params };
-                }
+            let match = uri.match(new RegExp(key));
+            if (match === null) {
+                continue;
             }
-            */
+
+            let routes = this.routing[key];
+            let params = this.getPathParams(match); 
+            return { uri: uri, component: routes.index, params };
         }
 
         return null;

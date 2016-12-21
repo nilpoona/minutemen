@@ -23,7 +23,7 @@ class AppContainer extends Component {
     }
 
     transitionTo = () => {
-        this.props.transitionTo('/bar/1/1/');
+        this.props.transitionTo('/bar/2/1/');
     }
 
     render() {
