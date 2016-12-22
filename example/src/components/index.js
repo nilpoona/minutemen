@@ -4,9 +4,9 @@ const App = (props) => {
     return (
         <div>
             root<br />
-            <button onClick={props.transitionToFoo}>/foo</button>
-            <button onClick={props.transitionToBar}>/bar/:id</button>
-            <button onClick={props.transitionTo}>/bar/1/1/</button>
+            <button onClick={props.transitionToFoo}>名前からパスを逆引き</button>
+            <button onClick={props.transitionToBar}>名前からパスを逆引き（パラメータあり）</button>
+            <button onClick={props.transitionTo}>パスを直接指定</button>
         </div>
     );
 };
